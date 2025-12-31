@@ -33,7 +33,7 @@ Other columns may exist (e.g., `Violenc`, `Hate`, `Vulgar`) but this repo focuse
 Example row:
 ```text
 {text: "...", HateSpeech: 0/1}
-
+```
 
 
 **Note:** Dataset files are **not included** in this repository.
@@ -147,29 +147,4 @@ If downloads time out, re-run the cell; HuggingFace will often resume.
 (Installing `hf_xet` may improve performance, but it’s optional.)
 
 ---
-
-## Git / Large Files Warning
-
-Do **not** push training outputs like:
-
-* `checkpoint-*`
-* `*.safetensors`, `*.pth`, `*.bin`
-
-If you need to publish trained weights, use:
-
-* GitHub Releases, or
-* HuggingFace Hub, or
-* Git LFS (only if necessary)
-
----
-
-## License
-
-This project is currently shared for research/learning purposes.
-(Add a license file if you plan to make it open-source.)
-
-```
-
-If you want, I can also generate a **.gitignore** tailored to your exact folders (so checkpoints never get committed again), and a short “About” + Topics list for the repo.
-```
 

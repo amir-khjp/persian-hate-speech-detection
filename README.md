@@ -147,4 +147,7 @@ If downloads time out, re-run the cell; HuggingFace will often resume.
 (Installing `hf_xet` may improve performance, but it’s optional.)
 
 ---
+## Contact
 
+**Amirhossein Khajepour**
+Email: [amirhosseion.kh@gmail.com](mailto:a.khajepour.official@gmail.com)

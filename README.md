@@ -33,3 +33,143 @@ Other columns may exist (e.g., `Violenc`, `Hate`, `Vulgar`) but this repo focuse
 Example row:
 ```text
 {text: "...", HateSpeech: 0/1}
+
+
+
+**Note:** Dataset files are **not included** in this repository.
+
+---
+
+## Hardware
+
+Training was tested on:
+
+* **GPU:** NVIDIA GeForce **MX150**
+* Mixed precision (`fp16=True`) + gradient accumulation were used to fit GPU memory.
+
+---
+
+## Results (Current)
+
+### 1) Fine-tuned ParsBERT (HooshvareLab/bert-fa-zwnj-base)
+
+* **Validation F1:** ~0.75 (best epoch around 2)
+* **Test F1:** **~0.753**
+* **Test accuracy:** **~0.78**
+
+Classification report (test):
+
+* Normal: Precision ~0.80, Recall ~0.82, F1 ~0.81
+* HateSpeech: Precision ~0.77, Recall ~0.74, F1 ~0.75
+
+### 2) Raw (Untrained) ParsBERT Head (Expected weak)
+
+As expected, using the base model with a randomly initialized classification head produces low performance.
+
+### 3) Fine-tuned DistilGPT-2 Baseline
+
+* **Test accuracy:** ~0.58
+* Performance is currently lower than ParsBERT for this task (expected due to model mismatch + training constraints).
+
+---
+
+## Repository Contents
+
+* `main-bert-gpu.ipynb` — main experiments notebook
+* `.gitignore` — prevents pushing datasets, checkpoints, and large model files
+* `README.md`
+
+---
+
+## Setup
+
+### 1) Install dependencies
+
+Create a fresh environment (recommended), then install:
+
+```bash
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+pip install transformers datasets evaluate scikit-learn tqdm
+```
+
+If you prefer:
+
+```bash
+pip install -r requirements.txt
+```
+
+### 2) Run the notebook
+
+Open Jupyter and run:
+
+```bash
+jupyter notebook
+```
+
+Then open:
+
+* `main-bert-gpu.ipynb`
+
+---
+
+## Training Notes (MX150-friendly)
+
+Recommended settings used in experiments:
+
+* `fp16=True`
+* small batch size (e.g., 4)
+* `gradient_accumulation_steps` to simulate larger effective batch
+* `gradient_checkpointing=True` (optional)
+
+---
+
+## Saving the Model
+
+After training, save the best model + tokenizer:
+
+```python
+trainer.save_model("./parsbert-hate-speech-model")
+tokenizer.save_pretrained("./parsbert-hate-speech-model")
+```
+
+---
+
+## Common Issues (Windows)
+
+### HuggingFace symlink warning
+
+On Windows, HuggingFace may warn about symlinks. It’s usually safe to ignore.
+To remove the warning, enable **Developer Mode** or run as Administrator.
+
+### Download timeouts (model.safetensors)
+
+If downloads time out, re-run the cell; HuggingFace will often resume.
+(Installing `hf_xet` may improve performance, but it’s optional.)
+
+---
+
+## Git / Large Files Warning
+
+Do **not** push training outputs like:
+
+* `checkpoint-*`
+* `*.safetensors`, `*.pth`, `*.bin`
+
+If you need to publish trained weights, use:
+
+* GitHub Releases, or
+* HuggingFace Hub, or
+* Git LFS (only if necessary)
+
+---
+
+## License
+
+This project is currently shared for research/learning purposes.
+(Add a license file if you plan to make it open-source.)
+
+```
+
+If you want, I can also generate a **.gitignore** tailored to your exact folders (so checkpoints never get committed again), and a short “About” + Topics list for the repo.
+```
+
